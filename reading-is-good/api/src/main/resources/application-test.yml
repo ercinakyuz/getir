@@ -1,13 +1,13 @@
-MONGO_SERVER: localhost
+MONGO_SERVER: mongo-db
 MONGO_DB: reading-is-good
 MONGO_AUTO_INDEX: true
 
-RABBIT_NODES: localhost
+RABBIT_NODES: rabbit-mq
 RABBIT_PORT: 5673
 RABBIT_USER: user
 RABBIT_PASS: password
 
-REDIS_SERVER: localhost:6379
+REDIS_SERVER: redis:6379
 REDIS_DEFAULT_DB: 0
 REDIS_LOCK_TIMEOUT: 30s
 

@@ -1,0 +1,46 @@
+version: '2.4'
+
+services:
+   rig-api:
+      image: rig-api
+      container_name: rig-api
+      depends_on:
+         - "mongo-db"
+         - "rabbit-mq"
+         - "redis"
+      ports:
+         - 8080:8080
+      environment:
+        - "SPRING_PROFILES_ACTIVE=test"
+      # networks:
+      #    - getir
+   rabbit-mq:
+      image: rabbitmq:3-management
+      container_name: rabbit-mq
+      ports:
+         - 5673:5673
+      environment:
+        - "RABBITMQ_DEFAULT_USER=user"
+        - "RABBITMQ_DEFAULT_PASS=password"
+      # networks:
+      #    - getir   
+   mongo-db:
+      image: mongo
+      container_name: "mongo-db"
+      ports:
+         - 27017:27017
+      command: --replSet rs0
+      healthcheck:
+        test: test $$(echo "rs.initiate().ok | mongo --eval "rs.initiate()") -eq 1
+      # networks:
+      #    - getir
+   redis:
+      image: redis
+      container_name: "redis"
+      ports:
+         - 6379:6379
+#       networks:
+#          - getir
+# networks:
+#    getir:
+#      driver: bridge   
