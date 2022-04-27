@@ -4,43 +4,52 @@ services:
    rig-api:
       image: rig-api
       container_name: rig-api
+      restart: on-failure:3
       depends_on:
-         - "mongo-db"
-         - "rabbit-mq"
-         - "redis"
+         - mongo-db
+         - rabbit-mq
+         - redis
       ports:
          - 8080:8080
       environment:
         - "SPRING_PROFILES_ACTIVE=test"
-      # networks:
-      #    - getir
+      networks:
+         - getir
    rabbit-mq:
       image: rabbitmq:3-management
       container_name: rabbit-mq
+      restart: on-failure:3
       ports:
          - 5673:5673
       environment:
         - "RABBITMQ_DEFAULT_USER=user"
         - "RABBITMQ_DEFAULT_PASS=password"
-      # networks:
-      #    - getir   
-   mongo-db:
-      image: mongo
-      container_name: "mongo-db"
-      ports:
-         - 27017:27017
-      command: --replSet rs0
-      healthcheck:
-        test: test $$(echo "rs.initiate().ok | mongo --eval "rs.initiate()") -eq 1
-      # networks:
-      #    - getir
+      networks:
+         - getir
    redis:
       image: redis
-      container_name: "redis"
+      container_name: redis
+      restart: on-failure:3
       ports:
          - 6379:6379
-#       networks:
-#          - getir
-# networks:
-#    getir:
-#      driver: bridge   
+      networks:
+         - getir
+   mongo-db:
+      image: mongo
+      container_name: mongo-db
+      restart: on-failure:3
+      ports:
+         - 27017:27017
+      networks:
+         - getir
+   mongo-post-processor:
+      image: mongo
+      restart: "no"
+      depends_on:
+         - mongo-db
+      entrypoint: [ "bash", "-c", "mongod --host mongo-db:27017 --replSet rs0 && sleep 3 && mongo --host mongo-db:27017 --eval 'rs.initiate()'"]
+      networks:
+         - getir
+networks:
+   getir:
+      driver: bridge
