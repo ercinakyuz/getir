@@ -1,4 +1,4 @@
-# READING IS GOOD
+# Reading Is Good
 
 ## Workflow
 
@@ -49,7 +49,7 @@
 **Mongo replicaset configuration**
 Mongo replicaset added for using @Transactional, it needs to be initialized manually for now.
 In mongo container:
-`mongo --eval "rs.initiate()`
+`mongo --eval "rs.initiate()"`
 
 
 #### Have a nice review :)
