@@ -3,29 +3,17 @@
 ## Workflow
 
 1. Register a new merchant
-
 2. Login with merchant via credentials or refresh token
-
 3. Add book/s for authenticated merchant
-
 4. Change book's quantity for authenticated merchant
-
 5. Register a new customer
-
 6. Login with customer via credentials or refresh token
-
 7. Place an order for authenticated customer
-
 8. Placing order decreases book stock/s in a queue with distributed locking algorithm
-
 9. Increasing or decreasing stock by customer or merchant waits each other for atomicity
-
 10. Placing an order builds a projection for order statistics asynchronously
-
 11. We could list these statistics as a customer for given year
-
 12. We could get order/s by different parameters
-
 
 ## Technical Debt
 1. DDD based clean architecture with command pattern is used.
