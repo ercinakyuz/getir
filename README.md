@@ -34,10 +34,23 @@
 4. Redisson lock resolved stock management problem but having a tradeoff, user's actions are waiting each other.
 5. Happy path integration tests are added for maximum coverage. Unit tests also should be written, there was no time for me.
 6. Test containers should had been added if time duration was enough for me.
-7. Containerization not completed
-8. First, framework module should be built as maven. And then, reading-is-good-api ready for running.
-9. Swagger-UI is ready for api.
-10. Postman collection is added under tools/postman directory.
+7. First, framework module should be built as maven. And then, reading-is-good-api ready for running.
+8. Swagger-UI is ready for api.
+9. Postman collection is added under tools/postman directory.
+
+## Dockerization
+
+**Build Docker File**
+`docker build -f tools/docker/dockerfile -t rig-api .`
+
+**Compose up api with mongo,redis,rabbit**
+`docker-compose up`
+
+**Mongo replicaset configuration**
+Mongo replicaset added for using @Transactional, it needs to be initialized manually for now.
+In mongo container:
+`mongo --eval "rs.initiate()`
+
 
 #### Have a nice review :)
 
