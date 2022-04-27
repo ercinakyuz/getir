@@ -1,4 +1,4 @@
-# DOCKERIZATION #
+# Dockerization #
 
 **Build Docker File**
 `docker build -f tools/docker/dockerfile -t rig-api .`
