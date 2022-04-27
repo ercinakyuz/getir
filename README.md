@@ -32,12 +32,7 @@
 `docker build -f tools/docker/dockerfile -t rig-api .`
 
 **Compose up api with mongo,redis,rabbit**
-`docker-compose up`
-
-**Mongo replicaset configuration**
-Mongo replicaset added for using @Transactional, it needs to be initialized manually for now.
-In mongo container:
-`mongo --eval "rs.initiate()"`
+`docker-compose -p getir up`
 
 
 #### Have a nice review :)
