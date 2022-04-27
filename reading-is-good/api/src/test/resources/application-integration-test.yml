@@ -1,0 +1,26 @@
+spring:
+  data:
+    mongodb:
+      uri: mongodb://localhost/reading-is-good-test
+      auto-index-creation: true
+  rabbitmq:
+    addresses: localhost
+    port: 5673
+    username: user
+    password: password
+
+redis:
+  server: redis://localhost:6379
+  defaultDb: 8
+  lockTimeout: 10000
+
+jwt:
+  access:
+    expiration: 5m
+    secret:
+      key: 48621b17-1267-4c38-b38a-91f3be3e7e45
+  refresh:
+    expiration: 10m
+    secret:
+      key: 1d7f8036-1ea5-4e41-aeea-50a5b5f457fb
+  issuer: test

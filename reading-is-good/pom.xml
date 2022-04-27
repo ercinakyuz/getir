@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.getir.framework</groupId>
+        <artifactId>root</artifactId>
+        <version>1.0.0.0</version>
+        <relativePath/>
+    </parent>
+    <groupId>com.getir.readingisgood</groupId>
+    <artifactId>root</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0-SNAPSHOT</version>
+    <modules>
+        <module>infrastructure</module>
+        <module>domain</module>
+        <module>application</module>
+        <module>api</module>
+    </modules>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.getir.framework</groupId>
+            <artifactId>test</artifactId>
+            <version>1.0.0.0</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+</project>

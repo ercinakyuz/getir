@@ -1,0 +1,37 @@
+spring:
+  data:
+    mongodb:
+      uri: mongodb://${MONGO_SERVER}/${MONGO_DB}
+      auto-index-creation: ${MONGO_AUTO_INDEX}
+  rabbitmq:
+    addresses: ${RABBIT_NODES}
+    port: ${RABBIT_PORT}
+    username: ${RABBIT_USER}
+    password: ${RABBIT_PASS}
+    listener:
+      simple:
+        default-requeue-rejected: false
+        retry:
+          enabled: true
+          initial-interval: 10000
+          max-attempts: 3
+          multiplier: 1.5
+          max-interval: 20000
+redis:
+  server: redis://${REDIS_SERVER}
+  defaultDb: ${REDIS_DEFAULT_DB}
+  lockTimeout: ${REDIS_LOCK_TIMEOUT}
+jwt:
+  access:
+    expiration: ${JWT_ACCESS_EXPIRATION}
+    secret:
+      key: ${JWT_ACCESS_SECRET_KEY}
+  refresh:
+    expiration: ${JWT_REFRESH_EXPIRATION}
+    secret:
+      key: ${JWT_REFRESH_SECRET_KEY}
+  issuer: ${JWT_ISSUER}
+
+
+
+
