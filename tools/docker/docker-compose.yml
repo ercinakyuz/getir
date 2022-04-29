@@ -38,6 +38,7 @@ services:
       image: mongo
       container_name: mongo-db
       restart: on-failure:3
+      command: mongod --replSet rs0
       ports:
          - 27017:27017
       networks:
@@ -47,7 +48,7 @@ services:
       restart: "no"
       depends_on:
          - mongo-db
-      entrypoint: [ "bash", "-c", "mongod --host mongo-db:27017 --replSet rs0 && sleep 3 && mongo --host mongo-db:27017 --eval 'rs.initiate()'"]
+      entrypoint: [ "bash", "-c", "sleep 5 && mongo --host mongo-db:27017 --eval 'rs.initiate()'"]
       networks:
          - getir
 networks:
