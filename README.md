@@ -28,11 +28,13 @@
 
 ## Dockerization
 
+In project home directory open terminal and execute these commands:
+
 **Build Docker File**
 `docker build -f tools/docker/dockerfile -t rig-api .`
 
 **Compose up api with mongo,redis,rabbit**
-`docker-compose -p getir up`
+`docker-compose -f tools/docker/docker-compose.yml -p getir up -d`
 
 
 #### Have a nice review :)
