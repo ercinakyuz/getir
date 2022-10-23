@@ -20,7 +20,11 @@ services:
       container_name: rabbit-mq
       restart: on-failure:3
       ports:
-         - 5673:5673
+         - "5672:5672"
+         - "15672:15672"
+      expose:
+         - 5672
+         - 15672
       environment:
         - "RABBITMQ_DEFAULT_USER=user"
         - "RABBITMQ_DEFAULT_PASS=password"
@@ -32,6 +36,8 @@ services:
       restart: on-failure:3
       ports:
          - 6379:6379
+      expose:
+         - 6379
       networks:
          - getir
    mongo-db:
@@ -41,16 +47,18 @@ services:
       command: mongod --replSet rs0
       ports:
          - 27017:27017
+      expose:
+         - 27017
       networks:
          - getir
-   mongo-post-processor:
-      image: mongo
+   mongo-rs-initiator:
+      image: mongoclient/mongoclient
       restart: "no"
       depends_on:
          - mongo-db
-      entrypoint: [ "bash", "-c", "sleep 5 && mongo --host mongo-db:27017 --eval 'rs.initiate()'"]
       networks:
          - getir
+      command: mongosh --host local-mongo:27017 --eval 'rs.initiate();' 
 networks:
    getir:
       driver: bridge
