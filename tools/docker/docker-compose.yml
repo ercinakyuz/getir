@@ -58,7 +58,7 @@ services:
          - mongo-db
       networks:
          - getir
-      command: mongosh --host local-mongo:27017 --eval 'rs.initiate();' 
+      command: mongo --host mongo-db:27017 --eval 'rs.initiate();' 
 networks:
    getir:
       driver: bridge
