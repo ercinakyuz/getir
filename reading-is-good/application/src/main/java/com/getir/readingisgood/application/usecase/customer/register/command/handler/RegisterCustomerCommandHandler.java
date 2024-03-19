@@ -27,7 +27,7 @@ public class RegisterCustomerCommandHandler implements Command.Handler<RegisterC
                         .build())
                 .build());
 
-        customerOfWork.Insert(customer);
+        customerOfWork.insert(customer);
 
         return null;
     }

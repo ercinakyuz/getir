@@ -3,7 +3,7 @@ MONGO_DB: reading-is-good
 MONGO_AUTO_INDEX: true
 
 RABBIT_NODES: localhost
-RABBIT_PORT: 5673
+RABBIT_PORT: 5672
 RABBIT_USER: guest
 RABBIT_PASS: guest
 

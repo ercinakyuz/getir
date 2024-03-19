@@ -16,19 +16,19 @@ public class CustomerOfWork implements AggregateOfWork<Customer> {
     private final CustomerRepository customerRepository;
 
     @Override
-    public Customer Insert(final Customer customer) {
+    public Customer insert(final Customer customer) {
         customerRepository.save(customerConverter.convertAll(customer));
         return customer;
     }
 
     @Override
-    public Customer Update(final Customer customer) {
+    public Customer update(final Customer customer) {
         customerRepository.save(customerConverter.convertAll(customer));
         return customer;
     }
 
     @Override
-    public Customer Delete(final Customer customer) {
+    public Customer delete(final Customer customer) {
         customerRepository.deleteById(customer.getId());
         return customer;
     }

@@ -18,7 +18,7 @@ public class BookQuantityUpdateService {
     public Book decrease(final DecreaseBookQuantityServiceDto serviceDto) {
         final Book book = bookBuilder.build(serviceDto.getId())
                 .decreaseQuantityForOrderCompletion(serviceDto.getQuantity(), serviceDto.getCustomerId());
-        bookOfWork.Update(book);
+        bookOfWork.update(book);
         return book;
     }
 }

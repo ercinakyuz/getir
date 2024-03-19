@@ -85,7 +85,7 @@ public class Order extends GenericAggregateRoot<Order, UUID, OrderState> {
     protected Order applyEvents() {
         switch (state) {
             case CREATED:
-                events.add(OrderCompleted.builder()
+                addEvent(OrderCompleted.builder()
                         .id(id)
                         .build());
         }

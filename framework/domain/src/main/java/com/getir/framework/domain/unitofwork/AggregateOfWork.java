@@ -4,9 +4,9 @@ import com.getir.framework.domain.model.aggregate.AggregateRoot;
 
 public interface AggregateOfWork<TAggregate extends AggregateRoot> {
 
-    TAggregate Insert(TAggregate aggregate);
+    TAggregate insert(TAggregate aggregate);
 
-    TAggregate Update(TAggregate aggregate);
+    TAggregate update(TAggregate aggregate);
 
-    TAggregate Delete(TAggregate aggregate);
+    TAggregate delete(TAggregate aggregate);
 }

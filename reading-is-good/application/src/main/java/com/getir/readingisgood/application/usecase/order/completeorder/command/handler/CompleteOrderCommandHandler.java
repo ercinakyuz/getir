@@ -53,7 +53,7 @@ public class CompleteOrderCommandHandler implements Command.Handler<CompleteOrde
         final Lock lockedBookQuantities = bookQuantityLocker.lockMultiple(decreaseBookQuantityMap.keySet());
         try {
             tryDecreaseBookQuantities(order.getCustomer().getId(), decreaseBookQuantityMap);
-            orderOfWork.Insert(order);
+            orderOfWork.insert(order);
             paymentService.pay();
         } finally {
             lockedBookQuantities.unlock();

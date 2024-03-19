@@ -16,19 +16,19 @@ public class MerchantOfWork implements AggregateOfWork<Merchant> {
     private final MerchantRepository merchantRepository;
 
     @Override
-    public Merchant Insert(final Merchant merchant) {
+    public Merchant insert(final Merchant merchant) {
         merchantRepository.save(merchantConverter.convertAll(merchant));
         return merchant;
     }
 
     @Override
-    public Merchant Update(final Merchant merchant) {
+    public Merchant update(final Merchant merchant) {
         merchantRepository.save(merchantConverter.convertAll(merchant));
         return merchant;
     }
 
     @Override
-    public Merchant Delete(final Merchant merchant) {
+    public Merchant delete(final Merchant merchant) {
         merchantRepository.deleteById(merchant.getId());
         return merchant;
     }

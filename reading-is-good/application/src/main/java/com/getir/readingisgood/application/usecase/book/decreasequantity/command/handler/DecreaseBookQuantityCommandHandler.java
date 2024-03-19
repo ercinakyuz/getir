@@ -31,7 +31,7 @@ public class DecreaseBookQuantityCommandHandler implements Command.Handler<Decre
                     .merchantId(decreaseBookQuantityCommand.getMerchantId())
                     .build())
                     .decreaseQuantity(decreaseBookQuantityCommand.getQuantity());
-            bookOfWork.Update(book);
+            bookOfWork.update(book);
         }
         finally {
             lockedBook.unlock();

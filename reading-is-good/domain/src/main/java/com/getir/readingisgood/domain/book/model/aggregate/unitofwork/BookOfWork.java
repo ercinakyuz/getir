@@ -17,19 +17,19 @@ public class BookOfWork implements AggregateOfWork<Book> {
     private final BookRepository bookRepository;
 
     @Override
-    public Book Insert(final Book aggregate) {
+    public Book insert(final Book aggregate) {
         bookRepository.save(bookConverter.convertAll(aggregate));
         return aggregate;
     }
 
     @Override
-    public Book Update(final Book aggregate) {
+    public Book update(final Book aggregate) {
         bookRepository.save(bookConverter.convertAll(aggregate));
         return aggregate;
     }
 
     @Override
-    public Book Delete(final Book aggregate) {
+    public Book delete(final Book aggregate) {
         bookRepository.deleteById(aggregate.getId());
         return aggregate;
     }

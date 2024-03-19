@@ -17,15 +17,15 @@ public class RedisLocker implements Locker {
 
     @Override
     public Lock lock(final String key) {
-        final Lock fairLock = redissonClient.getFairLock(key);
-        fairLock.lock();
-        return fairLock;
+        var lock = redissonClient.getFairLock(key);
+        lock.lock();
+        return lock;
     }
 
     @Override
     public Lock multiLock(final Set<String> keySet) {
         final RLock[] subLocks = keySet.stream().map(redissonClient::getFairLock).toArray(RLock[]::new);
-        final Lock mainLock = redissonClient.getMultiLock(subLocks);
+        var mainLock = redissonClient.getMultiLock(subLocks);
         mainLock.lock();
         return mainLock;
     }

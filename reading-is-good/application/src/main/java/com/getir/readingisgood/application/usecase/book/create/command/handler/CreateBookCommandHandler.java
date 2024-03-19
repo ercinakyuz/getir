@@ -33,7 +33,7 @@ public class CreateBookCommandHandler implements Command.Handler<CreateBookComma
                         .build())
                 .build());
 
-        bookOfWork.Insert(book);
+        bookOfWork.insert(book);
 
         return book.getId();
     }

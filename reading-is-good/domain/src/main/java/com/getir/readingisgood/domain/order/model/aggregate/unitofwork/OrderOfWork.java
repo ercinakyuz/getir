@@ -16,19 +16,19 @@ public class OrderOfWork implements AggregateOfWork<Order> {
     private final OrderRepository orderRepository;
 
     @Override
-    public Order Insert(final Order order) {
+    public Order insert(final Order order) {
         orderRepository.save(orderConverter.convertAll(order));
         return order;
     }
 
     @Override
-    public Order Update(final Order order) {
+    public Order update(final Order order) {
         orderRepository.save(orderConverter.convertAll(order));
         return order;
     }
 
     @Override
-    public Order Delete(final Order order) {
+    public Order delete(final Order order) {
         orderRepository.deleteById(order.getId());
         return order;
     }

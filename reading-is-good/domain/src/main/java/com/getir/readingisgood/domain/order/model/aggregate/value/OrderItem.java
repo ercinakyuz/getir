@@ -9,6 +9,8 @@ import lombok.Value;
 import java.math.BigDecimal;
 import java.util.UUID;
 
+import static java.util.UUID.randomUUID;
+
 @Value
 @Builder(access = AccessLevel.PRIVATE)
 public class OrderItem {
@@ -31,7 +33,7 @@ public class OrderItem {
     public static OrderItem create(final CreateOrderItemDto createDto) {
         validateCreateDto(createDto);
         return OrderItem.builder()
-                .id(UUID.randomUUID())
+                .id(randomUUID())
                 .book(createDto.getBook())
                 .quantity(createDto.getQuantity())
                 .build();

@@ -27,7 +27,7 @@ public class RegisterMerchantCommandHandler implements Command.Handler<RegisterM
                         .build())
                 .build());
 
-        merchantOfWork.Insert(merchant);
+        merchantOfWork.insert(merchant);
 
         return null;
     }
