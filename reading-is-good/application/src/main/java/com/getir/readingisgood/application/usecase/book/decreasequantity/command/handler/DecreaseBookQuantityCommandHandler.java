@@ -1,6 +1,7 @@
 package com.getir.readingisgood.application.usecase.book.decreasequantity.command.handler;
 
 import an.awesome.pipelinr.Command;
+import com.getir.framework.locking.impl.Locked;
 import com.getir.readingisgood.application.usecase.book.decreasequantity.command.DecreaseBookQuantityCommand;
 import com.getir.readingisgood.domain.book.locker.BookQuantityLocker;
 import com.getir.readingisgood.domain.book.model.aggregate.Book;
@@ -9,8 +10,6 @@ import com.getir.readingisgood.domain.book.model.aggregate.builder.args.BookBuil
 import com.getir.readingisgood.domain.book.model.aggregate.unitofwork.BookOfWork;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-
-import java.util.concurrent.locks.Lock;
 
 @Component
 @RequiredArgsConstructor
@@ -24,17 +23,13 @@ public class DecreaseBookQuantityCommandHandler implements Command.Handler<Decre
 
     @Override
     public Void handle(final DecreaseBookQuantityCommand decreaseBookQuantityCommand) {
-        final Lock lockedBook = bookQuantityLocker.lock(decreaseBookQuantityCommand.getId());
-        try {
+        try (var ignored = bookQuantityLocker.lock(decreaseBookQuantityCommand.getId())) {
             final Book book = bookBuilder.buildWithOwnership(BookBuilderWithOwnershipArgs.builder()
-                    .id(decreaseBookQuantityCommand.getId())
-                    .merchantId(decreaseBookQuantityCommand.getMerchantId())
-                    .build())
+                            .id(decreaseBookQuantityCommand.getId())
+                            .merchantId(decreaseBookQuantityCommand.getMerchantId())
+                            .build())
                     .decreaseQuantity(decreaseBookQuantityCommand.getQuantity());
             bookOfWork.update(book);
-        }
-        finally {
-            lockedBook.unlock();
         }
         return null;
     }

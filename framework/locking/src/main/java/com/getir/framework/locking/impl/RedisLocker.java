@@ -7,7 +7,6 @@ import org.redisson.api.RedissonClient;
 import org.springframework.stereotype.Component;
 
 import java.util.Set;
-import java.util.concurrent.locks.Lock;
 
 @Component
 @RequiredArgsConstructor
@@ -16,17 +15,15 @@ public class RedisLocker implements Locker {
     private final RedissonClient redissonClient;
 
     @Override
-    public Lock lock(final String key) {
+    public Locked lock(String key) {
         var lock = redissonClient.getFairLock(key);
-        lock.lock();
-        return lock;
+        return internalLock(lock);
     }
 
     @Override
-    public Lock multiLock(final Set<String> keySet) {
-        final RLock[] subLocks = keySet.stream().map(redissonClient::getFairLock).toArray(RLock[]::new);
+    public Locked multiLock(Set<String> keySet) {
+        var subLocks = keySet.stream().map(redissonClient::getFairLock).toArray(RLock[]::new);
         var mainLock = redissonClient.getMultiLock(subLocks);
-        mainLock.lock();
-        return mainLock;
+        return internalLock(mainLock);
     }
 }

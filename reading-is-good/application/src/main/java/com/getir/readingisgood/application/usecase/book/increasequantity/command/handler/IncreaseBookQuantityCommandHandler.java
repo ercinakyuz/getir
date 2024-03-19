@@ -1,6 +1,7 @@
 package com.getir.readingisgood.application.usecase.book.increasequantity.command.handler;
 
 import an.awesome.pipelinr.Command;
+import com.getir.framework.locking.impl.Locked;
 import com.getir.readingisgood.application.usecase.book.increasequantity.command.IncreaseBookQuantityCommand;
 import com.getir.readingisgood.domain.book.locker.BookQuantityLocker;
 import com.getir.readingisgood.domain.book.model.aggregate.Book;
@@ -24,17 +25,13 @@ public class IncreaseBookQuantityCommandHandler implements Command.Handler<Incre
 
     @Override
     public Void handle(final IncreaseBookQuantityCommand increaseBookQuantityCommand) {
-        final Lock lock = bookQuantityLocker.lock(increaseBookQuantityCommand.getId());
-        try {
+        try (var ignored = bookQuantityLocker.lock(increaseBookQuantityCommand.getId())) {
             final Book book = bookBuilder.buildWithOwnership(BookBuilderWithOwnershipArgs.builder()
-                    .id(increaseBookQuantityCommand.getId())
-                    .merchantId(increaseBookQuantityCommand.getMerchantId())
-                    .build())
+                            .id(increaseBookQuantityCommand.getId())
+                            .merchantId(increaseBookQuantityCommand.getMerchantId())
+                            .build())
                     .increaseQuantity(increaseBookQuantityCommand.getQuantity());
             bookOfWork.update(book);
-        }
-        finally {
-            lock.unlock();
         }
         return null;
     }

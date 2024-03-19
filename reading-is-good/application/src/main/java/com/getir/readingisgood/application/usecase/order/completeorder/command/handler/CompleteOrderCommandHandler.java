@@ -2,6 +2,7 @@ package com.getir.readingisgood.application.usecase.order.completeorder.command.
 
 import an.awesome.pipelinr.Command;
 import com.getir.framework.domain.model.exception.DomainException;
+import com.getir.framework.locking.impl.Locked;
 import com.getir.readingisgood.application.usecase.order.completeorder.command.CompleteOrderCommand;
 import com.getir.readingisgood.domain.book.locker.BookQuantityLocker;
 import com.getir.readingisgood.domain.book.service.BookQuantityUpdateService;
@@ -50,15 +51,11 @@ public class CompleteOrderCommandHandler implements Command.Handler<CompleteOrde
                 .build());
         final Map<UUID, Integer> decreaseBookQuantityMap = order.getItems()
                 .stream().collect(Collectors.toMap(orderItem -> orderItem.getBook().getId(), OrderItem::getQuantity));
-        final Lock lockedBookQuantities = bookQuantityLocker.lockMultiple(decreaseBookQuantityMap.keySet());
-        try {
+        try (var locked = bookQuantityLocker.lockMultiple(decreaseBookQuantityMap.keySet())) {
             tryDecreaseBookQuantities(order.getCustomer().getId(), decreaseBookQuantityMap);
             orderOfWork.insert(order);
             paymentService.pay();
-        } finally {
-            lockedBookQuantities.unlock();
         }
-
         return order.getId();
     }
 
