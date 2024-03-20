@@ -2,7 +2,6 @@ package com.getir.readingisgood.application.usecase.order.completeorder.command.
 
 import an.awesome.pipelinr.Command;
 import com.getir.framework.domain.model.exception.DomainException;
-import com.getir.framework.locking.impl.Locked;
 import com.getir.readingisgood.application.usecase.order.completeorder.command.CompleteOrderCommand;
 import com.getir.readingisgood.domain.book.locker.BookQuantityLocker;
 import com.getir.readingisgood.domain.book.service.BookQuantityUpdateService;
@@ -20,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
 import java.util.UUID;
-import java.util.concurrent.locks.Lock;
 import java.util.stream.Collectors;
 
 import static com.getir.readingisgood.application.usecase.order.completeorder.command.handler.error.CompleteOrderCommandHandlerError.INSUFFICIENT_BOOK_STOCK;
@@ -51,7 +49,7 @@ public class CompleteOrderCommandHandler implements Command.Handler<CompleteOrde
                 .build());
         final Map<UUID, Integer> decreaseBookQuantityMap = order.getItems()
                 .stream().collect(Collectors.toMap(orderItem -> orderItem.getBook().getId(), OrderItem::getQuantity));
-        try (var locked = bookQuantityLocker.lockMultiple(decreaseBookQuantityMap.keySet())) {
+        try (var ignored = bookQuantityLocker.lockMultiple(decreaseBookQuantityMap.keySet())) {
             tryDecreaseBookQuantities(order.getCustomer().getId(), decreaseBookQuantityMap);
             orderOfWork.insert(order);
             paymentService.pay();

@@ -4,14 +4,23 @@ import com.getir.framework.locking.impl.Locked;
 
 import java.util.Set;
 import java.util.concurrent.locks.Lock;
+import java.util.function.Function;
 
-public interface Locker {
+public abstract class Locker {
 
-    Locked lock(final String key);
+    protected abstract Function<String, Lock> lockFactory();
 
-    Locked multiLock(final Set<String> keySet);
+    protected abstract Function<Set<String>, Lock> multiLockFactory();
 
-    default Locked internalLock(Lock lock){
+    public Locked lock(final String key) {
+        return internalLock(lockFactory().apply(key));
+    }
+
+    public Locked multiLock(final Set<String> keys) {
+        return internalLock(multiLockFactory().apply(keys));
+    }
+
+    private static Locked internalLock(Lock lock) {
         lock.lock();
         return new Locked(lock);
     }
